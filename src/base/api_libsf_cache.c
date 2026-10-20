@@ -151,11 +151,12 @@ LIBVGMSTREAM_API libstreamfile_t* libstreamfile_open_buffered(libstreamfile_t* e
     if (!libsf->user_data) goto fail;
 
     priv = libsf->user_data;
-    priv->libsf = ext_libsf;
     priv->buf_size = buf_size;
     priv->buf = calloc(buf_size, sizeof(uint8_t));
     if (!priv->buf) goto fail;
 
+    // take ownership only once nothing can fail, so on failure the caller still owns ext_libsf
+    priv->libsf = ext_libsf;
     priv->file_size = priv->libsf->get_size(priv->libsf->user_data);
 
     snprintf(priv->name, sizeof(priv->name), "%s", priv->libsf->get_name(priv->libsf->user_data));

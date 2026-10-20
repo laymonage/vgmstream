@@ -58,7 +58,9 @@ LIBVGMSTREAM_API libstreamfile_t* libstreamfile_open_from_stdio(const char* file
 /* base libstreamfile using a FILE (cached); the filename is needed as metadata */
 LIBVGMSTREAM_API libstreamfile_t* libstreamfile_open_from_file(void* file, const char* filename);
 
- /* cached streamfile (recommended to wrap your external libsf since vgmstream needs to seek a lot) */
+ /* cached streamfile (recommended to wrap your external libsf since vgmstream needs to seek a lot).
+  * On success the returned libsf owns ext_libsf and closes it on close. On failure returns NULL
+  * and ext_libsf is left untouched, so the caller must close it. */
 LIBVGMSTREAM_API libstreamfile_t* libstreamfile_open_buffered(libstreamfile_t* ext_libsf);
 
 #endif
